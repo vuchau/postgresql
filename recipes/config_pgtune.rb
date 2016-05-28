@@ -242,7 +242,9 @@ checkpoint_segments =
   "desktop" => 3
 }.fetch(db_type)
 
-node.default['postgresql']['config']['checkpoint_segments'] = checkpoint_segments
+if node['postgresql']['version'].to_f < 9.5
+  node.default['postgresql']['config']['checkpoint_segments'] = checkpoint_segments
+end
 
 # (7) checkpoint_completion_target
 #     Time spent flushing dirty buffers during checkpoint, as fraction
